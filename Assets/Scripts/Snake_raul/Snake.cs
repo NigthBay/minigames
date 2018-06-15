@@ -5,15 +5,17 @@ using UnityEngine.SceneManagement;
 
 public class Snake : MonoBehaviour {
 
+    [Header("Variables")]
     public GameObject camera;
     private Vector3 offset;
     float xvel, zvel;
-    enum Direcciones { delante, izquierda, derecha, detras };
-    private Direcciones direcciones;
     private Vector3 RotationSnake;
     private Vector3 RotationCamera;
     private int coins;
     public Snake_raul game;
+    
+    public AudioSource coinss;
+
 
 
     // Use this for initialization
@@ -22,8 +24,7 @@ public class Snake : MonoBehaviour {
         xvel = 0.03f;
         offset = new Vector3(0,12,0);
         camera.transform.eulerAngles = new Vector3(90, 0, 0);
-        direcciones = Direcciones.delante;
-        coins = 18;
+        coins = 0;
     }
 
     private void OnCollisionEnter(Collision other)
@@ -31,27 +32,26 @@ public class Snake : MonoBehaviour {
         if (other.gameObject.name == "coin")
         {
             Debug.Log("Has cogido una moneda");
-            Debug.Log("tienes"+ coins);
             other.gameObject.SetActive(false);
-            coins++;
+            StartCoroutine (AddCoin());
+            Debug.Log("tienes" + coins);
         }
 
         if (other.gameObject.name == "muerte")
         {
+            
             Debug.Log("You are dead");
-
-            game.EndGame(false);
+            SceneManager.LoadScene("Menu_raul");
+            //game.EndGame(false); Esto no lo hace para enseñar el game loop
         }
     }
 
     void Update () {
-
         if (coins >= 20)
         {
             Debug.Log("Win");
-            StartCoroutine(Wait());
             SceneManager.LoadScene("Menu_raul");
-            game.EndGame(true);
+            //game.EndGame(true); Esto no lo hace para enseñar el game loop
         }
         transform.Translate(zvel, 0f, xvel);
 
@@ -75,11 +75,11 @@ public class Snake : MonoBehaviour {
         camera.transform.position = this.transform.position + offset;
     }
 
-    IEnumerator Wait()
+    IEnumerator AddCoin()
     {
-        Debug.Log(Time.time);
-        yield return new WaitForSeconds(5000);
-        Debug.Log(Time.time);
+        coin.Play();
+        yield return new WaitForSeconds(0.1f);
+        coins++;
     }
 
 }
