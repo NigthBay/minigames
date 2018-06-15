@@ -14,9 +14,8 @@ public class Snake : MonoBehaviour {
     private int coins;
     public Snake_raul game;
     
-    public AudioSource coinss;
-
-
+    public AudioSource coin;
+    public AudioSource crash;
 
     // Use this for initialization
     void Start () {
@@ -39,7 +38,7 @@ public class Snake : MonoBehaviour {
 
         if (other.gameObject.name == "muerte")
         {
-            
+            StartCoroutine(Death());
             Debug.Log("You are dead");
             SceneManager.LoadScene("Menu_raul");
             //game.EndGame(false); Esto no lo hace para enseñar el game loop
@@ -80,6 +79,13 @@ public class Snake : MonoBehaviour {
         coin.Play();
         yield return new WaitForSeconds(0.1f);
         coins++;
+    }
+
+
+    IEnumerator Death()
+    {
+        crash.Play();
+        yield return new WaitForSeconds(0);
     }
 
 }
