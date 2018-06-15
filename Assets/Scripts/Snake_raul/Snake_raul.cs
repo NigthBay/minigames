@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Snake_raul : IMiniGame
 {
@@ -18,7 +19,7 @@ public class Snake_raul : IMiniGame
     {
         Debug.Log(this.ToString() + " game Begin");
         game.SetActive(true);
-        gameCamera.SetActive(false);
+        gameCamera.SetActive(true);
     }
 
     public override void initGame(MiniGameDificulty difficulty, GameManager gm)
